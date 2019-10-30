@@ -17,7 +17,7 @@
 package cirus.io.plugin;
 
 
-import cirus.io.plugin.format.FileInputFormat;
+import cirus.io.plugin.format.CustomFileInputFormat;
 import io.cdap.cdap.api.annotation.Description;
 import io.cdap.cdap.api.annotation.Macro;
 import io.cdap.cdap.api.annotation.Name;
@@ -44,7 +44,7 @@ import java.util.Collections;
 import java.util.Map;
 
 /**
- * A source that uses the {@link FileInputFormat} to read whole file as one record.
+ * A source that uses the {@link CustomFileInputFormat} to read whole file as one record.
  *
  * <p>TODO: Move this to hydrator-plugins and make it extends from FileBatchSource to get the full
  * configurability.
@@ -73,9 +73,9 @@ public class FileListSource extends BatchSource<String, String, StructuredRecord
   public void prepareRun(BatchSourceContext context) throws Exception {
     Job job = createJob();
     LOG.info("Reading files from path :{} "+config.path);
-    org.apache.hadoop.mapreduce.lib.input.FileInputFormat.setInputPaths(job, config.path);
+    CustomFileInputFormat.setInputPaths(job, config.path);
     LOG.info("shouldReadRecursively :{} "+config.recursive);
-    org.apache.hadoop.mapreduce.lib.input.FileInputFormat.setInputDirRecursive(job, config.recursive);
+    CustomFileInputFormat.setInputDirRecursive(job, config.recursive);
     final String inputDir = job.getConfiguration().get(org.apache.hadoop.mapreduce.lib.input.FileInputFormat.INPUT_DIR);
     LOG.info("inputDir :{} "+inputDir);
     context.setInput(
@@ -84,7 +84,7 @@ public class FileListSource extends BatchSource<String, String, StructuredRecord
             new InputFormatProvider() {
               @Override
               public String getInputFormatClassName() {
-                return FileInputFormat.class.getName();
+                return CustomFileInputFormat.class.getName();
               }
 
               @Override

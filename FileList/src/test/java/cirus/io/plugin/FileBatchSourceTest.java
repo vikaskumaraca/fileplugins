@@ -74,7 +74,7 @@ public class FileBatchSourceTest extends ETLBatchTestBase {
 
     ETLStage source =
         new ETLStage(
-            "FileInput", new ETLPlugin("File", BatchSource.PLUGIN_TYPE, sourceProperties, null));
+            "FileListReader", new ETLPlugin("FileListReader", BatchSource.PLUGIN_TYPE, sourceProperties, null));
 
     String outputDatasetName = "recursive-folders";
     ETLStage sink = new ETLStage("sink", MockSink.getPlugin(outputDatasetName));

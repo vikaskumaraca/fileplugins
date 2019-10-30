@@ -22,15 +22,27 @@ import org.apache.hadoop.mapreduce.JobContext;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * An input format that reads the whole file content as one record.
  */
-public class FileInputFormat extends org.apache.hadoop.mapreduce.lib.input.FileInputFormat<String, String> {
+public class CustomFileInputFormat extends org.apache.hadoop.mapreduce.lib.input.FileInputFormat<String, String> {
 
   @Override
   protected boolean isSplitable(JobContext context, Path filename) {
     return false;
+  }
+
+  @Override
+  public List<InputSplit> getSplits(JobContext job) throws IOException {
+    ClassLoader cl = job.getConfiguration().getClassLoader();
+    job.getConfiguration().setClassLoader(getClass().getClassLoader());
+    try {
+      return super.getSplits(job);
+    } finally {
+      job.getConfiguration().setClassLoader(cl);
+    }
   }
 
   @Override
