@@ -1,0 +1,33 @@
+{
+  "metadata": {
+    "spec-version": "1.0"
+  },
+  "configuration-groups": [
+    {
+      "label": "Compressor",
+      "properties": [
+        {
+          "widget-type": "keyvalue-dropdown",
+          "label": "Compress Fields",
+          "name": "compressor",
+          "widget-attributes": {
+            "showDelimiter": "false",
+            "dropdownOptions": [
+              "SNAPPY",
+              "ZIP",
+              "GZIP",
+              "NONE"
+            ],
+            "key-placeholder": "Field Name"
+          }
+        },
+        {
+          "widget-type": "dataset-selector",
+          "label": "Table Name",
+          "name": "tableName"
+        }
+      ]
+    }
+  ],
+  "outputs": []
+}
